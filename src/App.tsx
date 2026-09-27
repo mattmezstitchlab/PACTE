@@ -41,9 +41,10 @@ function App(){
   const [wedding,setWedding]=useState<Wedding>(load);
   useEffect(()=>localStorage.setItem('pacte-wedding-v2',JSON.stringify(wedding)),[wedding]);
   const updatePacte=(id:string,patch:Partial<Pacte>)=>setWedding(w=>({...w,pactes:w.pactes.map(p=>p.id===id?{...p,...patch}:p)}));
+  const addWeddingEvent=(event:{id:string;time:string;title:string})=>setWedding(w=>({...w,events:[...w.events,event]}));
   return <BrowserRouter><Routes>
     <Route path="/" element={<Landing/>}/>
-    <Route path="/mariage" element={<Shell wedding={wedding}><WeddingPage wedding={wedding}/></Shell>}/>
+    <Route path="/mariage" element={<Shell wedding={wedding}><WeddingPage wedding={wedding} addEvent={addWeddingEvent}/></Shell>}/>
     <Route path="/pacte/:id" element={<Shell wedding={wedding}><PactePage wedding={wedding} updatePacte={updatePacte}/></Shell>}/>
     <Route path="/prestataire" element={<Shell wedding={wedding}><VendorPage wedding={wedding}/></Shell>}/>
     <Route path="/prestataire/offres" element={<Shell wedding={wedding}><OffersPage/></Shell>}/>
@@ -93,11 +94,11 @@ function Landing(){
  </div>
 }
 
-function WeddingPage({wedding}:{wedding:Wedding}){
+function WeddingPage({wedding,addEvent}:{wedding:Wedding;addEvent:(event:{id:string;time:string;title:string})=>void}){
  const [newEvent,setNewEvent]=useState(false);
  const [time,setTime]=useState('16:30'); const [title,setTitle]=useState('');
  const pactesByEvent=(time:string)=>wedding.pactes.flatMap(p=>p.slots.filter(s=>s.start===time).map(s=>({p,s})));
- const add=()=>{if(!title.trim())return; wedding.events.push({id:crypto.randomUUID(),time,title}); setTitle('');setNewEvent(false);};
+ const add=()=>{if(!title.trim())return; addEvent({id:crypto.randomUUID(),time,title}); setTitle('');setNewEvent(false);};
  return <div className="mx-auto max-w-6xl px-5 pb-24 pt-10 md:px-8">
   <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
    <div><p className="eyebrow">MON MARIAGE</p><h1 className="mt-2 text-4xl font-semibold tracking-[-.045em] md:text-6xl">{wedding.name}</h1><p className="mt-2 text-black/45">{wedding.date} · {wedding.place}</p></div>
