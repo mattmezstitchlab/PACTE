@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  --color-ivoire: #F7F3EC;
+  --color-parchemin: #EFE7D8;
+  --color-encre: #16130E;
+  --color-encre2: #2A251C;
+  --color-or: #A8873D;
+  --color-orclair: #E7D5A8;
+  --color-sauge: #3E5C4B;
+  --color-terracotta: #B4552D;
+  --color-nuit: #101418;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: #F7F3EC;
+  color: #16130E;
+  font-family: "Inter", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.font-serif { font-family: "Fraunces", Georgia, serif; }
+.font-mono { font-family: "IBM Plex Mono", monospace; }
+
+.paper-texture {
+  background-image:
+    radial-gradient(ellipse at 20% 10%, rgba(168,135,61,0.10), transparent 55%),
+    radial-gradient(ellipse at 90% 90%, rgba(62,92,75,0.08), transparent 50%),
+    linear-gradient(rgba(22,19,14,0.025) 1px, transparent 1px);
+  background-size: auto, auto, 100% 28px;
+}
+.grain::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+}
+.seal-ring {
+  background: conic-gradient(from 200deg, #A8873D, #E7D5A8, #8a6d2e, #E7D5A8, #A8873D);
+}
+.custom-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+.custom-scroll::-webkit-scrollbar-thumb { background: #D8CCB4; border-radius: 8px; }
+@keyframes pulse-dot { 0%,100% { opacity: 1; transform: scale(1);} 50% { opacity:.5; transform: scale(.8);} }
+.live-dot { animation: pulse-dot 1.8s ease-in-out infinite; }
