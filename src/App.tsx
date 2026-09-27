@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, ArrowRight, CalendarDays, Check, CheckCircle2, ChevronRight, Clock3, FileSignature, Plus, Users, Wallet, X, AlertTriangle, Menu, MoreHorizontal } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowLeft, ArrowRight, Check, ChevronRight, Clock3, Plus, X, AlertTriangle, MoreHorizontal } from 'lucide-react';
 
 type Slot = { id:string; label:string; start:string; end:string; };
 type PacteStatus = 'A CONFIRMER'|'PROPOSÉ'|'VALIDÉ'|'SIGNÉ'|'MODIFIÉ'|'ANNULÉ';
@@ -176,7 +176,7 @@ function PactePage({wedding,updatePacte}:{wedding:Wedding;updatePacte:(id:string
 function Status({status}:{status:PacteStatus}){return <span className={'status-pill '+status.toLowerCase().replaceAll(' ','-')}><span/> {status}</span>}
 
 function VendorPage({wedding}:{wedding:Wedding}){
- const [day,setDay]=useState(wedding.pactes.filter(p=>p.vendor.includes('Matt')));
+ const [day]=useState(wedding.pactes.filter(p=>p.vendor.includes('Matt')));
  const conflicts=day.flatMap(p=>p.slots.map(s=>({...s,p}))).filter((x,i,a)=>a.some((y,j)=>j!==i && x.s.start<y.end && y.s.start<x.s.end));
  return <div className="mx-auto max-w-6xl px-5 pb-24 pt-10 md:px-8">
   <div className="flex items-end justify-between"><div><p className="eyebrow">PRESTATAIRE</p><h1 className="mt-2 text-4xl font-semibold tracking-[-.045em]">Ma journée</h1><p className="mt-2 text-black/45">Matt Mez Sax · 18 juillet 2027</p></div><Link to="/prestataire/offres" className="button-dark"><Plus size={16}/> Mes offres</Link></div>
